@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrgentMed - Médecins à domicile 24h/24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ===== Modern CSS Reset ===== */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --rounded-sm: 0.375rem;
+            --rounded: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-xl: 1.25rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 62.5%;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Typography ===== */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 4.8rem;
+        }
+
+        h2 {
+            font-size: 3.6rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 2.4rem;
+        }
+
+        p {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+
+        /* ===== Layout ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 8rem 0;
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--rounded);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        /* ===== Header ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--dark);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .highlight {
+            color: var(--primary) !important;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            color: var(--white);
+        }
+
+        .hero h1 span {
+            color: var(--white);
+            opacity: 0.9;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            color: var(--white);
+        }
+
+        .cta-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--rounded-lg);
+            padding: 3rem;
+            max-width: 600px;
+            margin-top: 3rem;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 2rem;
+            color: var(--white);
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -1rem;
+            font-size: 4rem;
+            color: var(--white);
+            opacity: 0.3;
+        }
+
+        .btn-call {
+            font-size: 1.8rem;
+            padding: 1.5rem 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* ===== Features Section ===== */
+        .features {
+            background: var(--white);
+            padding: 6rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: var(--rounded-lg);
+            padding: 3rem;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .feature-icon i {
+            font-size: 2.8rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        /* ===== FAQ Section ===== */
+        .faq {
+            background: var(--light);
+            padding: 6rem 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-radius: var(--rounded-md);
+            overflow: hidden;
+            border: 1px solid var(--gray-light);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 2rem;
+            text-align: left;
+            background: var(--white);
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: var(--gray-light);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 2.4rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .faq-question.active::after {
+            content: '-';
+        }
+
+        .faq-answer {
+            padding: 0 2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: var(--white);
+        }
+
+        .faq-answer p {
+            padding: 2rem 0;
+        }
+
+        /* ===== Contact Section ===== */
+        .contact {
+            background: var(--white);
+            padding: 6rem 0 4rem;
+        }
+
+        .contact h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--rounded-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-light);
+            height: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--light);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--rounded-md);
+            color: var(--dark);
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        .contact-info {
+            background: var(--primary-light);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--rounded-lg);
+            padding: 3rem;
+            height: 100%;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--dark);
+        }
+
+        .contact-info h3 i {
+            color: var(--primary);
+        }
+
+        .contact-info p {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--gray);
+        }
+
+        .contact-info i {
+            width: 30px;
+            color: var(--primary);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--white);
+            padding: 6rem 0 3rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 5rem;
+            margin-bottom: 5rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--light);
+            border-radius: 50%;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-light);
+            color: var(--gray);
+            font-size: 1.4rem;
+        }
+
+        .legal-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .legal-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+
+        .legal-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 992px) {
+            html {
+                font-size: 58%;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 3rem 0;
+                gap: 2rem;
+                clip-path: circle(0px at 90% -10%);
+                transition: clip-path 0.5s ease-out;
+                z-index: 999;
+                box-shadow: var(--shadow-md);
+            }
+            
+            .nav-links.active {
+                clip-path: circle(1000px at 90% -10%);
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 5rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+            
+            .contact-form,
+            .contact-info {
+                padding: 2.5rem 2rem;
+            }
+            
+            .contact-info h3 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo" data-aos="fade-right">
+                <h1>Urgent<span>Med</span></h1>
+            </div>
+            <nav data-aos="fade-left">
+                <ul class="nav-links">
+                    <li><a href="{% url 'index' %}">Acceuil</a></li>
+                    <li><a href="#about">Qui Sommes-nous</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{% url 'inscription' %}">Rejoignez-nous</a>
+                    </li>
+                    <li><a href="{% url 'login' %}">Connexion</a></li>
+                    <a href="{% url 'register_medecin' %}">Créer un compte médecin</a>
+                </ul>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <h1>EN CAS D'URGENCE NOS MÉDECINS SE DÉPLACENT À VOTRE DOMICILE  <span>24H/24</span></h1>
+                <div class="cta-box" data-aos="fade-up" data-aos-delay="300">
+                    <p class="quote">"Notre service de consultations à domicile est accessible sur simple appel."</p>
+                    <a href="tel:0717810909" class="btn btn-primary btn-call"><i class="fas fa-phone"></i> 0717-810-909</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Soins de Qualité</h3>
+                    <p>Des médecins expérimentés pour des diagnostics précis.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Réactivité 24/7</h3>
+                    <p>Intervention rapide, 24 heures sur 24.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <h3>Tarifs Transparents</h3>
+                    <p>Pas de surprises, des prix fixes annoncés à l'avance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2 data-aos="fade-up">Questions Fréquentes</h2>
+            <div class="faq-container">
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question">Dans quelles régions êtes-vous disponible ?</button>
+                    <div class="faq-answer">
+                        <p>Nous couvrons Taza, Casablanca, Rabat, Marrakech et les villes principales du Maroc avec une équipe de médecins disponibles 24h/24.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question">Quels services proposez-vous à domicile ?</button>
+                    <div class="faq-answer">
+                        <p>Nos médecins peuvent effectuer des consultations générales, des urgences médicales, des prises de sang, des soins pédiatriques et des injections à domicile.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question">Quel est le délai moyen d'intervention ?</button>
+                    <div class="faq-answer">
+                        <p>Dans les zones couvertes, nos médecins interviennent en moyenne dans les 45 minutes suivant votre appel.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question">Comment se passe le paiement ?</button>
+                    <div class="faq-answer">
+                        <p>Le paiement s'effectue directement auprès du médecin à la fin de la consultation. Nous acceptons les espèces et les cartes bancaires.</p>
+                    </div>
+                </div>
+                <div class="faq-item" data-aos="fade-up">
+                    <button class="faq-question">Est-ce remboursé par la sécurité sociale ?</button>
+                    <div class="faq-answer">
+                        <p>Oui, nos consultations sont conventionnées et donnent droit à un remboursement selon les tarifs de la sécurité sociale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col" data-aos="fade-up">
+                    <div class="footer-logo">
+                        <h3>Urgent<span>Med</span></h3>
+                        <p>Médecins à domicile 24h/24.</p>
+                    </div>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                    <h4>Liens Rapides</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'index' %}">Accueil</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Urgences</a></li>
+                        <li><a href="#">Consultations</a></li>
+                        <li><a href="#">Soins à domicile</a></li>
+                        <li><a href="#">Pédiatrie</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 UrgentMed. Tous droits réservés.</p>
+                <div class="legal-links">
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions d'utilisation</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', () => {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('active');
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                question.classList.toggle('active');
+                answer.style.maxHeight = answer.style.maxHeight ? null : answer.scrollHeight + 'px';
+            });
+        });
+
+        // Form Submission
+        const form = document.querySelector('.contact-form');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Demande envoyée! Un médecin vous contactera sous 30 minutes.');
+                form.reset();
+            });
+        }
+    </script>
+</body>
+</html>

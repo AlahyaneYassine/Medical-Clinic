@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ===== Modern CSS Reset ===== */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --rounded-sm: 0.375rem;
+            --rounded: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-xl: 1.25rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 62.5%;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Typography ===== */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 4.8rem;
+        }
+
+        h2 {
+            font-size: 3.6rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 2.4rem;
+        }
+
+        p {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+
+        /* ===== Layout ===== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 8rem 0;
+        }
+
+        /* ===== Buttons ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--rounded);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== Header ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.6rem;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--dark);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .highlight {
+            color: var(--primary) !important;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            position: relative;
+            height: 60vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            color: var(--white);
+        }
+
+        .hero h1 span {
+            color: var(--white);
+            opacity: 0.9;
+        }
+
+        /* ===== Registration Form ===== */
+        .register-section {
+            padding: 8rem 0;
+            background: var(--white);
+        }
+
+        .register-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .register-form {
+            background: var(--white);
+            padding: 4rem;
+            border-radius: var(--rounded-lg);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-light);
+        }
+
+        .form-title {
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            text-align: center;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--light);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--rounded);
+            color: var(--dark);
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-check input {
+            margin-right: 1rem;
+        }
+
+        .form-check label {
+            font-size: 1.4rem;
+            color: var(--gray);
+        }
+
+        .form-check a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem 3rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--rounded);
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.6rem;
+            color: var(--gray);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--white);
+            padding: 6rem 0 3rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 5rem;
+            margin-bottom: 5rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-light);
+            color: var(--gray);
+            font-size: 1.4rem;
+        }
+
+        /* ===== Responsive Design ===== */
+        @media (max-width: 992px) {
+            html {
+                font-size: 58%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .register-form {
+                padding: 3rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 2.5rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 3rem 0;
+                gap: 2rem;
+                clip-path: circle(0px at 90% -10%);
+                transition: clip-path 0.5s ease-out;
+                z-index: 999;
+                box-shadow: var(--shadow-md);
+            }
+            
+            .nav-links.active {
+                clip-path: circle(1000px at 90% -10%);
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                padding: 5rem 0;
+            }
+            
+            .hero {
+                height: 50vh;
+                min-height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .register-form {
+                padding: 2.5rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Urgent<span>Med</span></h1>
+            </div>
+            <button class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+               <ul class="nav-links">
+                <li><a href="{% url 'index' %}">Acceuil</a></li>
+                <li><a href="#about">Qui Sommes-nous</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="{% url 'inscription' %}" class="highlight">Rejoignez-nous</a></li>
+                <li><a href="{% url 'login' %}">Connexion</a></li>
+                <li><a href="{% url 'register_medecin' %}">Créer un compte médecin</a></li>
+              </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Créer votre <span>compte</span></h1>
+        </div>
+    </section>
+
+    <!-- Registration Form Section -->
+    <section class="register-section">
+        <div class="container register-container">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: #ef4444; text-align: center; margin-bottom: 2rem;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="register-form">
+              {% csrf_token %}
+              <h2 class="form-title">Inscription</h2>
+          
+              <div class="form-row">
+                  <div class="form-group">
+                      <label>Nom:</label>
+                      <input type="text" name="nom" required>
+                  </div>
+          
+                  <div class="form-group">
+                      <label>Prénom:</label>
+                      <input type="text" name="prenom" required>
+                  </div>
+              </div>
+          
+              <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" name="email" required>
+              </div>
+          
+              <div class="form-group">
+                  <label>Date de naissance:</label>
+                  <input type="date" name="date_naissance" required>
+              </div>
+          
+              <div class="form-group">
+                  <label>Adresse:</label>
+                  <input type="text" name="adresse" required>
+              </div>
+          
+              <div class="form-group">
+                  <label>Téléphone:</label>
+                  <input type="text" name="telephone" required>
+              </div>
+          
+              <div class="form-group">
+                  <label>Mot de passe:</label>
+                  <input type="password" name="password" required>
+              </div>
+          
+              <div class="form-group">
+                  <label>Confirmer mot de passe:</label>
+                  <input type="password" name="confirm_password" required>
+              </div>
+          
+              <button type="submit" class="btn btn-primary">S'inscrire</button>
+          
+              <div class="login-link">
+                  <p>Déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+              </div>
+          </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>© 2024 UrgentMed. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+    </script>
+</body>
+</html>

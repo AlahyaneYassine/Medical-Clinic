@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes rendez-vous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --rounded-sm: 0.375rem;
+            --rounded: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-xl: 1.25rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem;
+            position: relative;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border-radius: var(--rounded-sm);
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* Table Section */
+        .section-container {
+            background: var(--white);
+            border-radius: var(--rounded-lg);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .section-container:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Modern Table */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .appointment-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 600px;
+        }
+
+        .appointment-table thead th {
+            background-color: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+            padding: 1rem;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .appointment-table tbody tr {
+            transition: var(--transition);
+        }
+
+        .appointment-table tbody tr:hover {
+            background-color: var(--primary-light);
+        }
+
+        .appointment-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            vertical-align: middle;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--rounded);
+            font-weight: 500;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: var(--danger);
+        }
+
+        .status-confirmed {
+            background-color: #dcfce7;
+            color: var(--secondary);
+        }
+
+        .status-pending {
+            background-color: #fef3c7;
+            color: var(--warning);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--rounded-sm);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--gray-light);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--white);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: var(--rounded-md);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .back-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn-row {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .appointment-table td, 
+            .appointment-table th {
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .status-badge {
+                padding: 0.375rem 0.5rem;
+            }
+            
+            .action-btn {
+                padding: 0.375rem 0.75rem;
+            }
+        }
+                .top-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--white);
+            border: 1px solid var(--white);
+            border-radius: var(--rounded-sm);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+   <section class="hero">
+        <div class="hero-content">
+            <a href="{% url 'main' %}" class="top-back-btn">
+                <i class="fas fa-arrow-left"></i> Retour
+            </a>
+            
+            <h1 class="page-title">
+                <i class="fas fa-user-circle"></i> Historique
+            </h1>
+            
+                        <div class="btn-row">
+                <a href="{% url 'historique_rdv' %}" class="btn btn-outline">
+                    <i class="fas fa-history"></i> Historique
+                </a>
+                <a href="{% url 'mon_compte' %}" class="btn btn-outline">
+                    <i class="fas fa-user-circle"></i> Mon Compte
+                </a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Upcoming Appointments -->
+        <div class="section-container animated" style="animation-delay: 0.1s;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-day"></i> Prochains rendez-vous
+                </h2>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="appointment-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Médecin</th>
+                            <th>Spécialité</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rdv in rdv_futurs %}
+                            <tr>
+                                <td>{{ rdv.date_heure|date:"d/m/Y" }}</td>
+                                <td>{{ rdv.date_heure|date:"H:i" }}</td>
+                                <td>
+                                    <div class="doctor-info">
+                                        <strong>Dr. {{ rdv.medecin.user.first_name }} {{ rdv.medecin.user.last_name }}</strong>
+                                        <div class="text-muted" style="font-size: 0.875rem; color: var(--gray);">
+                                            {{ rdv.medecin.specialite }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ rdv.medecin.specialite }}</td>
+                                <td>
+                                    {% if rdv.status == 'Confirmé' %}
+                                        <span class="status-badge status-confirmed">
+                                            <i class="fas fa-check-circle"></i> Confirmé
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i> En attente
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <!-- <button class="action-btn btn-danger" onclick="confirmCancel('{% url 'annuler_rdv_patient' rdv.id %}')"> -->
+                                        <i class="fas fa-times"></i> Annuler
+                                    </button>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="empty-state">
+                                    <div class="empty-icon"><i class="far fa-calendar-times"></i></div>
+                                    <p>Aucun rendez-vous à venir</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Appointment History -->
+        <div class="section-container animated" style="animation-delay: 0.2s;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i> Historique des rendez-vous
+                </h2>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="appointment-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Médecin</th>
+                            <th>Spécialité</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rdv in rdv_historiques %}
+                            <tr>
+                                <td>{{ rdv.date_heure|date:"d/m/Y" }}</td>
+                                <td>{{ rdv.date_heure|date:"H:i" }}</td>
+                                <td>
+                                    <div class="doctor-info">
+                                        <strong>Dr. {{ rdv.medecin.user.first_name }} {{ rdv.medecin.user.last_name }}</strong>
+                                        <div class="text-muted" style="font-size: 0.875rem; color: var(--gray);">
+                                            {{ rdv.medecin.specialite }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ rdv.medecin.specialite }}</td>
+                                <td>
+                                    {% if rdv.status == 'Annulé' %}
+                                        <span class="status-badge status-cancelled">
+                                            <i class="fas fa-ban"></i> Annulé
+                                        </span>
+                                    {% elif rdv.status == 'Confirmé' %}
+                                        <span class="status-badge status-confirmed">
+                                            <i class="fas fa-check-circle"></i> Confirmé
+                                        </span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">
+                                            <i class="fas fa-clock"></i> En attente
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="empty-state">
+                                    <div class="empty-icon"><i class="far fa-calendar-times"></i></div>
+                                    <p>Aucun historique disponible</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            
+        </div>
+    </div>
+
+    <script>
+        // Confirmation before canceling appointment
+        function confirmCancel(url) {
+            if (confirm("Êtes-vous sûr de vouloir annuler ce rendez-vous ?")) {
+                window.location.href = url;
+            }
+        }
+
+        // Add animation class to elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section-container');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

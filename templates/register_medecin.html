@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Médecin - UrgentMed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --rounded-sm: 0.375rem;
+            --rounded: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-xl: 1.25rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(219, 234, 254, 0.2) 100%);
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--white);
+            border-radius: var(--rounded-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .register-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 0;
+        }
+
+        .register-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .register-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .register-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .register-subtitle {
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .register-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--rounded-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background-color: var(--white);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: var(--rounded-md);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .messages {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-error {
+            padding: 0.75rem 1rem;
+            border-radius: var(--rounded-md);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            background-color: #fee2e2;
+            color: var(--danger-dark);
+            border-left: 4px solid var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .message-error i {
+            font-size: 1rem;
+        }
+
+        .register-footer {
+            text-align: center;
+            padding: 1rem 2rem 2rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .register-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .register-container {
+                border-radius: var(--rounded-lg);
+            }
+            
+            .register-header, .register-body {
+                padding: 1.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <div class="register-header-content">
+                <div class="register-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h1 class="register-title">Inscription Médecin</h1>
+                <p class="register-subtitle">Rejoignez notre plateforme médicale</p>
+            </div>
+        </div>
+        
+        <div class="register-body">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="message-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenom" class="form-label">
+                            <i class="fas fa-user"></i> Prénom
+                        </label>
+                        <input type="text" id="prenom" name="prenom" class="form-input" placeholder="Votre prénom" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nom" class="form-label">
+                            <i class="fas fa-user"></i> Nom
+                        </label>
+                        <input type="text" id="nom" name="nom" class="form-input" placeholder="Votre nom" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope"></i> Email professionnel
+                    </label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="votre@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock"></i> Mot de passe
+                    </label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telephone" class="form-label">
+                        <i class="fas fa-phone"></i> Téléphone
+                    </label>
+                    <input type="text" id="telephone" name="telephone" class="form-input" placeholder="Votre numéro" required>
+                </div>
+                
+                <div class="form-group">
+<select id="specialite" name="specialite" class="form-input" required>
+    <option value="">-- Sélectionnez une spécialité --</option>
+    {% for value, label in specialites.items %}
+        <option value="{{ value }}">{{ label }}</option>
+    {% endfor %}
+</select>
+
+</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ville" class="form-label">
+                            <i class="fas fa-city"></i> Ville
+                        </label>
+                        <input type="text" id="ville" name="ville" class="form-input" placeholder="Votre ville" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adresse" class="form-label">
+                            <i class="fas fa-map-marker-alt"></i> Adresse
+                        </label>
+                        <input type="text" id="adresse" name="adresse" class="form-input" placeholder="Votre adresse" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="heure_debut" class="form-label">
+                            <i class="fas fa-clock"></i> Heure d'ouverture
+                        </label>
+                        <input type="time" id="heure_debut" name="heure_debut" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="heure_fin" class="form-label">
+                            <i class="fas fa-clock"></i> Heure de fermeture
+                        </label>
+                        <input type="time" id="heure_fin" name="heure_fin" class="form-input" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Créer mon compte
+                </button>
+            </form>
+        </div>
+        
+        <div class="register-footer">
+            <p>Déjà inscrit ? <a href="{% url 'login' %}">Connectez-vous ici</a></p>
+        </div>
+    </div>
+</body>
+</html>

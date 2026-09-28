@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Recherche de médecins</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --rounded-sm: 0.375rem;
+            --rounded: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-xl: 1.25rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            max-width: 1200px;
+            margin: -3rem auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .search-card {
+            background: var(--white);
+            border-radius: var(--rounded-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        .search-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .search-header {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            display: inline-block;
+        }
+
+        .search-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Filters */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            position: relative;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .filter-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            z-index: 1;
+        }
+
+        .filters select, .filters input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.5rem;
+            font-size: 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--rounded-md);
+            background: var(--white);
+            color: var(--dark);
+            appearance: none;
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filters select:focus, .filters input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* Doctors Grid */
+        .doctors-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .doctor-card {
+            background: var(--white);
+            border-radius: var(--rounded-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .doctor-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .doctor-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--white);
+            transform: skewY(-3deg);
+            z-index: 1;
+        }
+
+        .doctor-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .doctor-specialty {
+            font-weight: 500;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doctor-specialty i {
+            font-size: 0.9rem;
+        }
+
+        .doctor-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doctor-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-item i {
+            color: var(--primary);
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .info-value {
+            color: var(--gray);
+        }
+
+        .doctor-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--rounded-md);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: var(--gray-light);
+            background: var(--light);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .doctors-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                padding: 0 1.5rem;
+            }
+            
+            .doctors-container {
+                padding: 0 1.5rem 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .doctor-actions {
+                flex-direction: column;
+            }
+            
+            .hero {
+                padding: 2.5rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Micro-interactions */
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --rounded-sm: 0.375rem;
+            --rounded-md: 0.75rem;
+            --transition: all 0.3s ease-in-out;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1.5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: var(--rounded-sm);
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--white);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .btn-outline.small {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: var(--rounded-sm);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        form button {
+            background: none;
+            color: inherit;
+            font: inherit;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="btn-row">
+                <a href="{% url 'historique_rdv' %}" class="btn btn-outline small">
+                    <i class="fas fa-history"></i> Historique
+                </a>
+                <a href="{% url 'mon_compte' %}" class="btn btn-outline small">
+                    <i class="fas fa-user-circle"></i> Mon Compte
+                </a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline small">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+<!-- Search Section -->
+<div class="search-container">
+    <div class="search-card">
+        <div class="search-header">
+            <h2>Filtrer votre recherche</h2>
+        </div>
+        
+        <form method="get" class="filters">
+            <div class="filter-group">
+                <label for="specialite">Spécialité</label>
+                <i class="fas fa-stethoscope"></i>
+                <select id="specialite" name="specialite" onchange="this.form.submit()">
+                    <option value="">Toutes spécialités</option>
+                    {% for s in specialites %}
+                        <option value="{{ s }}" {% if s == selected_specialite %}selected{% endif %}>{{ s|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="ville">Localisation</label>
+                <i class="fas fa-map-marker-alt"></i>
+                <select id="ville" name="ville" onchange="this.form.submit()">
+                    <option value="">Toutes villes</option>
+                    {% for v in villes %}
+                        <option value="{{ v }}" {% if v == selected_ville %}selected{% endif %}>{{ v|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="nom">Nom du médecin</label>
+                <i class="fas fa-user-md"></i>
+                <input type="text" id="nom" name="nom" placeholder="Rechercher par nom">
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Doctors List -->
+<div class="doctors-container">
+    {% if medecins %}
+        <div class="doctors-grid">
+            {% for medecin in medecins %}
+                <div class="doctor-card">
+                    <div class="doctor-header">
+                        <h3 class="doctor-name">Dr. {{ medecin.user.first_name }} {{ medecin.user.last_name }}</h3>
+                        <div class="doctor-specialty">
+                            <i class="fas fa-stethoscope"></i>
+                            {{ medecin.specialite }}
+                        </div>
+                    </div>
+                    
+                    <div class="doctor-body">
+                        <div class="doctor-info">
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <div class="info-label">Adresse</div>
+                                    <div class="info-value">{{ medecin.adresse }}, {{ medecin.ville }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <div class="info-label">Disponibilités</div>
+                                    <div class="info-value">
+                                        Lun–Ven : {{ medecin.heure_debut|time:"H:i" }} – {{ medecin.heure_fin|time:"H:i" }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-star"></i>
+                                <div>
+                                    <div class="info-label">Note moyenne</div>
+                                    <div class="info-value">
+                                        {% for i in "12345"|slice:":{{ medecin.note|floatformat:0|int }}" %}
+                                            <i class="fas fa-star" style="color: gold;"></i>
+                                        {% endfor %}
+                                        {% if medecin.note|floatformat:1 %} ({{ medecin.note|floatformat:1 }}){% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="doctor-actions">
+                            <a href="{% url 'reserver_rdv' medecin.id %}" class="btn btn-primary">
+                                <i class="far fa-calendar-alt"></i> Prendre RDV
+                            </a>
+                            <a href="{% url 'laisser_avis' medecin.id %}" class="btn btn-outline" style="color: var(--dark); border-color: var(--gray-light);">
+                                <i class="fas fa-user-md" style="color: var(--dark);"></i> Voir Profil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="far fa-frown"></i>
+            </div>
+            <h3 class="empty-title">Aucun médecin trouvé</h3>
+            <p>Essayez d'élargir vos critères de recherche ou utilisez des termes différents.</p>
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-sync-alt"></i>
+                Réinitialiser les filtres
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
