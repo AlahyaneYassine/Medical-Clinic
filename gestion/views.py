@@ -1,3 +1,4 @@
+import secrets
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
@@ -403,24 +404,40 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
 def ajouter_patient(request):
+    # Réservé aux réceptionnistes connectés
+    receptionniste_id = request.session.get('receptionniste_id')
+    if not receptionniste_id:
+        return redirect('staff_login')
+
+    receptionniste = Receptionniste.objects.filter(id=receptionniste_id).first()
+    if receptionniste is None:
+        return redirect('staff_login')
+
     if request.method == 'POST':
-        nom = request.POST['nom']
-        prenom = request.POST['prenom']
-        email = request.POST['email']
-        telephone = request.POST['telephone']
-        adresse = request.POST['adresse']
-        date_naissance = request.POST['date_naissance']
+        nom = request.POST.get('nom', '').strip()
+        prenom = request.POST.get('prenom', '').strip()
+        email = request.POST.get('email', '').strip()
+        telephone = request.POST.get('telephone', '').strip()
+        adresse = request.POST.get('adresse', '').strip()
+        date_naissance = request.POST.get('date_naissance', '').strip()
+
+        if not (nom and prenom and email and date_naissance):
+            messages.error(request, "Nom, prénom, email et date de naissance sont obligatoires.")
+            return redirect('ajouter_patient')
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Cet email est déjà utilisé.")
             return redirect('ajouter_patient')
 
-        user = User.objects.create(
+        # Mot de passe temporaire aléatoire, différent pour chaque patient
+        mot_de_passe_temp = secrets.token_urlsafe(9)
+
+        user = User.objects.create_user(
             username=email,
             email=email,
-            password=make_password("patient1234"),  # mot de passe par défaut
+            password=mot_de_passe_temp,
             first_name=prenom,
-            last_name=nom
+            last_name=nom,
         )
 
         Patient.objects.create(
@@ -430,13 +447,17 @@ def ajouter_patient(request):
             email=email,
             telephone=telephone,
             adresse=adresse,
-            date_naissance=date_naissance
+            date_naissance=date_naissance,
         )
 
-        messages.success(request, "Patient ajouté avec succès.")
-        return redirect('receptionniste_dashboard')
+        messages.success(
+            request,
+            f"Patient ajouté. Mot de passe temporaire : {mot_de_passe_temp} "
+            "(à communiquer au patient, qui pourra le changer dans « Mon compte »)."
+        )
+        return redirect('ajouter_patient')
 
-    return render(request, 'ajouter_patient.html')  # si le fichier est dans templates/gestion/
+    return render(request, 'ajouter_patient.html', {'receptionniste': receptionniste})
 
 from django.utils.timezone import now
 
