@@ -517,12 +517,8 @@
                     
                     <div class="appointment-actions">
                         {% if rdv.status == 'En attente' %}
-                            <a href="{% url 'confirmer_rdv' rdv.id %}" class="btn btn-success btn-sm">
-                                <i class="fas fa-check"></i> Confirmer
-                            </a>
-                            <a href="{% url 'annuler_rdv' rdv.id %}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-times"></i> Annuler
-                            </a>
+                            <form method="post" action="{% url 'confirmer_rdv' rdv.id %}" style="display:inline;margin:0;">{% csrf_token %}<button type="submit" class="btn btn-success btn-sm" style="font-family:inherit;"><i class="fas fa-check"></i> Confirmer</button></form>
+                            <form method="post" action="{% url 'annuler_rdv' rdv.id %}" style="display:inline;margin:0;">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" style="font-family:inherit;"><i class="fas fa-times"></i> Annuler</button></form>
                         {% endif %}
                         <button class="btn btn-primary btn-sm">
                             <i class="fas fa-ellipsis-v"></i>
@@ -574,12 +570,8 @@
                     
                     <div class="appointment-actions">
                         {% if rdv.status == 'En attente' %}
-                            <a href="{% url 'confirmer_rdv' rdv.id %}" class="btn btn-success btn-sm">
-                                <i class="fas fa-check"></i> Confirmer
-                            </a>
-                            <a href="{% url 'annuler_rdv' rdv.id %}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-times"></i> Annuler
-                            </a>
+                            <form method="post" action="{% url 'confirmer_rdv' rdv.id %}" style="display:inline;margin:0;">{% csrf_token %}<button type="submit" class="btn btn-success btn-sm" style="font-family:inherit;"><i class="fas fa-check"></i> Confirmer</button></form>
+                            <form method="post" action="{% url 'annuler_rdv' rdv.id %}" style="display:inline;margin:0;">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm" style="font-family:inherit;"><i class="fas fa-times"></i> Annuler</button></form>
                         {% endif %}
                         <button class="btn btn-primary btn-sm">
                             <i class="fas fa-ellipsis-v"></i>
