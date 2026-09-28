@@ -96,4 +96,5 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 
 ## Auteur
 
-Yassine Alahyane, étudiant ingénieur en Cybersécurité et Infrastructures Réseaux, EMSI Casablanca. [GitHub](https://github.com/AlahyaneYassine)
+Yassine Alahyane
+Cybersecurity Engineering Student
