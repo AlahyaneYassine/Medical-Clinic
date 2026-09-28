@@ -1,4 +1,5 @@
 import secrets
+from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect
@@ -259,6 +260,7 @@ def logout_view(request):
 
 
 # ---------------------- ANNULER UN RENDEZ-VOUS ----------------------
+@require_POST
 def annuler_rdv(request, rdv_id):
     medecin_id = request.session.get('medecin_id')
     receptionniste_id = request.session.get('receptionniste_id')
@@ -375,6 +377,7 @@ def receptionniste_dashboard(request):
     return render(request, 'receptionniste_dashboard.html', {
         'receptionniste': receptionniste
     })
+@require_POST
 def confirmer_rdv(request, rdv_id):
     medecin_id = request.session.get('medecin_id')
     receptionniste_id = request.session.get('receptionniste_id')
@@ -646,12 +649,25 @@ def mes_patients(request):
     return render(request, 'mes_patients.html', context)
 
 
+def _patient_du_medecin(medecin_id, patient_id):
+    """Retourne le patient s'il a au moins un rendez-vous avec ce médecin, sinon erreur 404."""
+    return get_object_or_404(
+        Patient.objects.filter(rendezvous_patient__medecin_id=medecin_id).distinct(),
+        id=patient_id,
+    )
+
+
 def editer_notes_patient(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    # Réservé aux médecins connectés, et uniquement pour leurs propres patients
+    medecin_id = request.session.get('medecin_id')
+    if not medecin_id:
+        return redirect('staff_login')
+
+    patient = _patient_du_medecin(medecin_id, patient_id)
+
     if request.method == "POST":
-        notes = request.POST.get("notes")
-        patient.notes = notes
-        patient.save()
+        patient.notes = request.POST.get("notes", "")
+        patient.save(update_fields=['notes'])
         return redirect("mes_patients")
     return render(request, "editer_notes.html", {"patient": patient})
 
@@ -720,9 +736,11 @@ from .models import Rendezvous
 
 
 def voir_dossier_patient(request, patient_id):
-    if not request.session.get('medecin_id'):
+    # Réservé aux médecins connectés, et uniquement pour leurs propres patients
+    medecin_id = request.session.get('medecin_id')
+    if not medecin_id:
         return redirect('staff_login')
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = _patient_du_medecin(medecin_id, patient_id)
     dossier, _ = DossierMedical.objects.get_or_create(patient=patient)
 
     # 🧮 Nombre de visites confirmées dans le passé
