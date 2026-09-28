@@ -88,7 +88,7 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 ## Limitations connues et pistes d'amélioration
 
 - Les comptes médecin et réceptionniste utilisent des sessions personnalisées ; migrer vers le système d'authentification Django avec des groupes/permissions permettrait des contrôles d'accès homogènes.
-- Les contrôles d'accès de certaines vues et les opérations qui modifient des données via des requêtes GET (confirmation, annulation) sont à durcir (méthode POST, protection CSRF, vérification de propriété).
+- Les vues sensibles vérifient le rôle et la propriété des données (patients d'un médecin, rendez-vous de son cabinet) et les actions de confirmation/annulation passent en POST avec protection CSRF, mais un audit complet (limitation des tentatives de connexion, journalisation, `LOGIN_URL` unifié) reste à faire.
 - La couverture de tests est à construire (`gestion/tests.py` est vide).
 - Le projet est configuré pour le développement (SQLite, `DEBUG` activé par défaut) ; un déploiement demanderait PostgreSQL, un serveur WSGI et `DEBUG=False`.
 - Les données médicales ne sont pas chiffrées au repos.
